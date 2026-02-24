@@ -59,6 +59,8 @@ jobs:
     - name: Run tests
       env:
         RAILS_ENV: test
+        AZURE_OPENAI_API_KEY: 'dummy-key-for-ci'
+        AZURE_OPENAI_ENDPOINT: 'https://dummy.openai.azure.com/openai/deployments/gpt-image-15/images/generations?api-version=2025-04-01-preview'
       run: |
         bundle exec rspec spec/models/image_generate_spec.rb
         bundle exec rspec spec/requests/games_spec.rb

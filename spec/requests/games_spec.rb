@@ -5,8 +5,13 @@ describe GamesController, type: :request do
   before do
     @user = FactoryBot.create(:user)
     sign_in @user
-    stub_request(:post, 'https://api-inference.huggingface.co/models/stablediffusionapi/breakdomainxl-v6')
-      .to_return(status: 200, body: 'ダミーレスポンス', headers: {})
+    dummy_b64 = Base64.strict_encode64(File.read('public/images/test_image.jpg'))
+    stub_request(:post, ENV.fetch('AZURE_OPENAI_ENDPOINT'))
+      .to_return(
+        status: 200,
+        body: { created: Time.now.to_i, data: [{ b64_json: dummy_b64 }] }.to_json,
+        headers: { 'Content-Type' => 'application/json' }
+      )
   end
 
   describe 'GET /games' do
