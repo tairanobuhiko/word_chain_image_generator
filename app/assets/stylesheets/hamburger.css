@@ -15,10 +15,10 @@ a {
 }
 .hamburger {
   display: block;
-  height: 60px;
+  height: 50px;
   margin-left: auto;
   z-index: 10;
-  width: 60px;
+  width: 50px;
   border: none;
   background-color: transparent;
 }
