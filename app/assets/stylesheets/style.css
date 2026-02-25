@@ -69,6 +69,9 @@ body::before {
 .button-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
 }
 
 #word-container {
@@ -382,14 +385,52 @@ h4 {
   margin-top: 20px;
 }
 
-.feedback-form-button:hover,
-.close-button:hover {
+.feedback-form-button:hover {
   background-color: #eaeaea;
   color: #333;
+  box-shadow: 2px 2px 2px #888888;
 }
 
 button {
   font-family: "Zen Maru Gothic", serif;
+  padding: 10px 20px;
+  border: 1.5px solid #f8bbd0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.07),
+    -2px -2px 5px rgba(255, 255, 255, 0.8);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+button:hover {
+  background-color: #fff0f5;
+  transform: translateY(-1px);
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.1),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.6);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.05),
+    -1px -1px 3px rgba(255, 255, 255, 0.6);
 }
 
 .footer {
@@ -439,6 +480,14 @@ button {
   border-radius: 15px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#game-over-content button {
+  min-width: 160px;
 }
 
 @keyframes fadeIn {
@@ -488,13 +537,100 @@ button {
   margin-bottom: 100px;
 }
 
-.download-button {
-  margin-left: 5px;
+/* プライマリボタン（画像生成） */
+#generate-image-button,
+#generate-image-after-game {
+  background: linear-gradient(135deg, #ff69b4 0%, #ec407a 100%);
+  color: #ffffff;
+  border: 1.5px solid #f48fb1;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 12px 24px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
-button {
-  margin: 0 5px 0 0;
-  padding: 5px 10px;
+#generate-image-button:hover,
+#generate-image-after-game:hover {
+  background: linear-gradient(135deg, #ff85c0 0%, #f06292 100%);
+  transform: translateY(-2px);
+  box-shadow:
+    5px 5px 10px rgba(0, 0, 0, 0.12),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+#generate-image-button:active,
+#generate-image-after-game:active {
+  background: linear-gradient(135deg, #f48fb1 0%, #d81b60 100%);
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.15),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.3);
+}
+
+#generate-image-button:disabled,
+#generate-image-after-game:disabled {
+  background: linear-gradient(135deg, #f8bbd0 0%, #f48fb1 100%);
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.05),
+    -1px -1px 3px rgba(255, 255, 255, 0.6);
+}
+
+/* ニュートラルボタン（もういちど） */
+#restart-game-always,
+#restart-game {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+  color: #e91e63;
+  border: 1.5px solid #f48fb1;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 12px 24px;
+}
+
+#restart-game-always:hover,
+#restart-game:hover {
+  background: linear-gradient(135deg, #fff0f5 0%, #fce4ec 100%);
+  transform: translateY(-2px);
+  box-shadow:
+    5px 5px 10px rgba(0, 0, 0, 0.12),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+#restart-game-always:active,
+#restart-game:active {
+  background: linear-gradient(135deg, #f8bbd0 0%, #f48fb1 100%);
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.6);
+}
+
+/* セカンダリボタン（ダウンロード） */
+.download-button {
+  background-color: #ffffff;
+  border: 1.5px solid #f8bbd0;
+  color: #e91e63;
+  font-size: 14px;
+  padding: 10px 20px;
+}
+
+.download-button:hover {
+  background-color: #fff0f5;
+  border-color: #f48fb1;
+  transform: translateY(-1px);
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.1),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+.download-button:active {
+  background-color: #fce4ec;
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.6);
 }
 
 #generated-image-container p {
@@ -573,6 +709,17 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-family: "Zen Maru Gothic", serif;
+  box-shadow: none;
+}
+
+.close-button:hover {
+  background-color: #eaeaea;
+  box-shadow: none;
+}
+
+.close-button:active {
+  background-color: #ddd;
+  box-shadow: none;
 }
 
 #romaji-map-popup {
@@ -739,6 +886,20 @@ button {
     border-radius: 16px;
   }
 
+  /* ボタンのレスポンシブ対応 */
+  button {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  #generate-image-button,
+  #generate-image-after-game,
+  #restart-game-always,
+  #restart-game {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
   .footer {
     height: 50px;
     line-height: normal;
@@ -823,6 +984,29 @@ button {
     transform: none;
   }
 
+  /* ボタンのレスポンシブ対応 */
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-container button {
+    width: 80%;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
+
+  #generate-image-button,
+  #generate-image-after-game,
+  #restart-game-always,
+  #restart-game {
+    font-size: 13px;
+    padding: 10px 18px;
+  }
+
   #game-over-content {
     font-family: "Hiragino Maru Gothic ProN", sans-serif;
   }
@@ -904,6 +1088,20 @@ button {
     padding: 6px;
     border-radius: 12px;
   }
+
+  /* ボタンのレスポンシブ対応 */
+  button {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+
+  #generate-image-button,
+  #generate-image-after-game,
+  #restart-game-always,
+  #restart-game {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
 }
 
 /* 横画面表示対応 */
@@ -961,9 +1159,31 @@ button {
   margin: 0 5px;
 }
 
-/* ツールチップスタイル */
+/* 外部リンクボタン（X共有） */
 .share-button {
   position: relative;
+  background-color: #ffffff;
+  border: 1.5px solid #ccc;
+  color: #555;
+  font-size: 14px;
+  padding: 10px 20px;
+}
+
+.share-button:hover {
+  background-color: #f5f5f5;
+  border-color: #999;
+  transform: translateY(-1px);
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.1),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+.share-button:active {
+  background-color: #eee;
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.6);
 }
 
 #error_explanation {
