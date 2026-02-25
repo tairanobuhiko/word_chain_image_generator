@@ -12,7 +12,8 @@
   color: white;
   margin: 0;
   font-size: 2.5em;
-  text-shadow: 4px 4px 0px #ff00ff,
+  text-shadow:
+    4px 4px 0px #ff00ff,
     /* ピンクの縁 */ 8px 8px 0px rgba(0, 0, 0, 0.2); /* 黒の影 */
 }
 
@@ -28,8 +29,9 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  font-family: "Zen Maru Gothic", serif, sans-serif, Arial,
-    "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  font-family:
+    "Zen Maru Gothic", serif, sans-serif, Arial, "Hiragino Kaku Gothic ProN",
+    Meiryo, sans-serif;
   margin-bottom: 120px;
   position: relative;
   margin: 0; /* デフォルトのマージンを取り除く */
@@ -58,7 +60,7 @@ body::before {
 }
 
 #typing-game {
-  max-width: 600px;
+  max-width: 900px;
   overflow: auto;
   margin: 20px auto;
   text-align: center;
@@ -89,37 +91,155 @@ body::before {
 /* キーボードデザイン */
 #keyboard-layout {
   margin: 0 auto;
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow:
+    6px 6px 12px rgba(0, 0, 0, 0.08),
+    -4px -4px 10px rgba(255, 255, 255, 0.9);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; /* 行が折り返されるようにする */
-  margin-bottom: 5px;
+  flex-wrap: nowrap;
+  margin-bottom: 4px;
+  gap: 4px;
+}
+
+/* 行のスタガー（物理キーボード風の段差） */
+.keyboard-row:nth-child(2) {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.keyboard-row:nth-child(3) {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.keyboard-row:nth-child(4) {
+  padding-left: 6px;
+  padding-right: 6px;
 }
 
 .key {
   font-family: "Zen Maru Gothic", serif;
-  background-color: #f7f7f7;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin: 0 2px;
-  padding: 10px 15px;
+  flex: 1 1 0;
+  min-width: 0;
+  background-color: #ffffff;
+  border: 1.5px solid #f8bbd0;
+  border-radius: 10px;
+  margin: 0;
+  padding: 10px 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-size: 14px;
+  color: #555;
+  box-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.07),
+    -2px -2px 5px rgba(255, 255, 255, 0.8);
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease,
+    background-color 0.15s ease;
 }
 
 .key:hover {
-  background-color: #eaeaea;
+  background-color: #fff0f5;
+  transform: translateY(-1px);
+  box-shadow:
+    4px 4px 8px rgba(0, 0, 0, 0.1),
+    -2px -2px 6px rgba(255, 255, 255, 0.9);
 }
 
+.key:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.6);
+}
+
+/* 特殊キー（delete, return, shift） */
+.key[data-key="backspace"],
+.key[data-key="enter"],
+.key[data-key="shift"] {
+  flex: 1.6 1 0;
+  background: linear-gradient(135deg, #ffb6c1 0%, #ff69b4 100%);
+  color: #ffffff;
+  border: 1.5px solid #f48fb1;
+  font-weight: bold;
+  font-size: 12px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.key[data-key="backspace"]:hover,
+.key[data-key="enter"]:hover,
+.key[data-key="shift"]:hover {
+  background: linear-gradient(135deg, #ffc1cc 0%, #ff85c0 100%);
+}
+
+.key[data-key="backspace"]:active,
+.key[data-key="enter"]:active,
+.key[data-key="shift"]:active {
+  background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
+}
+
+/* スペースバー */
 #spacebar {
-  width: 250px;
-  padding: 10px; /* スペースバーの幅を調整 */
+  flex: 8 1 0;
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+  border: 1.5px solid #f48fb1;
+  font-size: 13px;
+  color: #e91e63;
+  font-weight: bold;
+}
+
+#spacebar:hover {
+  background: linear-gradient(135deg, #fff0f5 0%, #fce4ec 100%);
+}
+
+/* キー押下時の .active 状態 */
+.key.active {
+  background-color: #fce4ec;
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.1),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.6);
+}
+
+.key[data-key="backspace"].active,
+.key[data-key="enter"].active,
+.key[data-key="shift"].active {
+  background: linear-gradient(135deg, #f48fb1 0%, #ec407a 100%);
+  transform: translateY(1px);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.15),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.3);
+}
+
+/* キー押下バウンスアニメーション */
+@keyframes keyBounce {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.92);
+  }
+  70% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .key.active {
-  background-color: #eaeaea; /* ハイライト時の背景色 */
+  animation: keyBounce 0.2s ease;
 }
 
 #se-toggle-image {
@@ -571,19 +691,52 @@ button {
 @media (max-width: 768px) {
   /* タブレット画面のスタイリング */
   .header h1 {
-    font-size: 2em; /* フォントサイズを小さく調整 */
-    text-shadow: 3px 3px 0px #ff00ff,
-      /* 影のサイズを小さく */ 6px 6px 0px rgba(0, 0, 0, 0.2); /* 影のサイズを小さく */
+    font-size: 2em;
+    text-shadow:
+      3px 3px 0px #ff00ff,
+      6px 6px 0px rgba(0, 0, 0, 0.2);
   }
-  .key,
-  #spacebar {
-    padding: 8px 6px; /* キーのパディングを調整 */
-    margin: 3px; /* キーのマージンを調整 */
-    font-size: 14px; /* フォントサイズを調整 */
+
+  #keyboard-layout {
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .keyboard-row {
+    gap: 3px;
+    margin-bottom: 3px;
+  }
+
+  .keyboard-row:nth-child(2) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .keyboard-row:nth-child(3) {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .keyboard-row:nth-child(4) {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .key {
+    padding: 8px 3px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+
+  .key[data-key="backspace"],
+  .key[data-key="enter"],
+  .key[data-key="shift"] {
+    font-size: 11px;
   }
 
   #spacebar {
-    padding: 8px; /* スペースバーのパディングを調整 */
+    padding: 8px;
+    border-radius: 16px;
   }
 
   .footer {
@@ -602,16 +755,17 @@ button {
   }
 
   #romaji-map-content {
-    width: 90%; /* スマートフォンやタブレットでの表示幅を調整 */
+    width: 90%;
   }
 }
 
 @media (max-width: 480px) {
   /* スマートフォン画面のスタイリング */
   .header h1 {
-    font-size: 1.5em; /* フォントサイズをさらに小さく調整 */
-    text-shadow: 2px 2px 0px #ff00ff,
-      /* 影のサイズをさらに小さく */ 4px 4px 0px rgba(0, 0, 0, 0.2); /* 影のサイズをさらに小さく */
+    font-size: 1.5em;
+    text-shadow:
+      2px 2px 0px #ff00ff,
+      4px 4px 0px rgba(0, 0, 0, 0.2);
   }
 
   #typing-game {
@@ -622,15 +776,51 @@ button {
     width: 70%;
   }
 
-  .key,
-  #spacebar {
-    padding: 6px 4px; /* キーのパディングを調整 */
-    margin: 2px; /* キーのマージンを調整 */
-    font-size: 12px; /* フォントサイズを調整 */
+  #keyboard-layout {
+    padding: 8px;
+    border-radius: 12px;
+  }
+
+  .keyboard-row {
+    gap: 3px;
+    margin-bottom: 3px;
+  }
+
+  .keyboard-row:nth-child(2) {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .keyboard-row:nth-child(3) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .keyboard-row:nth-child(4) {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .key {
+    padding: 7px 2px;
+    font-size: 11px;
+    border-radius: 7px;
+  }
+
+  .key[data-key="backspace"],
+  .key[data-key="enter"],
+  .key[data-key="shift"] {
+    font-size: 9px;
   }
 
   #spacebar {
-    padding: 6px; /* スペースバーのパディングを調整 */
+    padding: 7px;
+    border-radius: 14px;
+  }
+
+  /* タッチデバイス対応: ホバー transform を無効化 */
+  .key:hover {
+    transform: none;
   }
 
   #game-over-content {
@@ -668,6 +858,51 @@ button {
   #word-count {
     font-family: "Mochiy Pop One", sans-serif;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (max-width: 360px) {
+  /* 極小画面対応 */
+  #keyboard-layout {
+    padding: 6px;
+    border-radius: 10px;
+  }
+
+  .keyboard-row {
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .keyboard-row:nth-child(2) {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .keyboard-row:nth-child(3) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .keyboard-row:nth-child(4) {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .key {
+    padding: 6px 1px;
+    font-size: 10px;
+    border-radius: 6px;
+  }
+
+  .key[data-key="backspace"],
+  .key[data-key="enter"],
+  .key[data-key="shift"] {
+    font-size: 8px;
+  }
+
+  #spacebar {
+    padding: 6px;
+    border-radius: 12px;
   }
 }
 
