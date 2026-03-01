@@ -23,7 +23,38 @@ function setupGameListeners() {
   }
   let romajiInput = ""; // ローマ字入力を蓄積する変数
   const typingInput = document.getElementById("typing-input");
+  let isComposing = false; // IME変換中かどうかのフラグ
+  let valueBeforeComposition = ""; // IME変換開始前の入力値を保持
+  let preKeyDownValue = "";    // keydown処理前の入力値
+  let preKeyDownRomaji = "";   // keydown処理前のローマ字入力
   typingInput.value = "";
+
+  // ペーストとドロップによる直接入力を防止
+  typingInput.addEventListener("paste", (event) => {
+    event.preventDefault();
+  });
+  typingInput.addEventListener("drop", (event) => {
+    event.preventDefault();
+  });
+
+  // IME入力（日本語入力モード）の処理
+  typingInput.addEventListener("compositionstart", () => {
+    isComposing = true;
+    // keydown処理前の値を使う（keydownで追加された文字を巻き戻す）
+    valueBeforeComposition = preKeyDownValue;
+    typingInput.value = preKeyDownValue;
+    romajiInput = preKeyDownRomaji;
+  });
+
+  typingInput.addEventListener("compositionend", (event) => {
+    isComposing = false;
+    romajiInput = "";
+    // IMEの変換結果を受け入れる（破棄せず反映する）
+    setTimeout(() => {
+      typingInput.value = valueBeforeComposition + (event.data || "");
+    }, 0);
+  });
+
   lastArrowElement = null;
   usedWords = []; // これまでに入力された単語を保持する配列
   shareWords = [];
@@ -332,7 +363,14 @@ function setupGameListeners() {
   // 【物理キーボードとの連動】
   function setupKeyListener() {
     function handleKeyDown(event) {
+      // IME変換中はキー入力を無視
+      if (event.isComposing || isComposing) {
+        return;
+      }
       const typingInput = document.getElementById("typing-input");
+      // IME compositionstart が後から発火した場合に巻き戻せるよう、処理前の状態を保存
+      preKeyDownValue = typingInput.value;
+      preKeyDownRomaji = romajiInput;
       if (
         event.key.length === 1 ||
         event.key === "Backspace" ||
@@ -418,6 +456,7 @@ function setupGameListeners() {
 
   // スペースキー押下時のイベントリスナー
   document.addEventListener("keydown", function (event) {
+    if (event.isComposing || isComposing) return; // IME変換中は無視
     if (event.key === " ") {
       // スペースキーが押された場合
       const currentText = typingInput.value;
